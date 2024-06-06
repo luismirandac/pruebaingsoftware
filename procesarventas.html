@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .product-card p {
+            color: #555;
+        }
+
+        .product-details {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 20px auto;
+        }
+
+        .product-details.show {
+            display: block;
+        }
+
+        .product-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .close-btn, .buy-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover, .buy-btn:hover {
+            background-color: #c82333;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            margin-left: 10px;
+        }
+
+        .buy-btn:hover {
+            background-color: #218838;
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Ventas</h2>
+
+    <div class="products">
+        <div class="product-card" data-product="parlante">
+            <img src="https://www.abcdin.cl/dw/image/v2/BCPP_PRD/on/demandware.static/-/Sites-master-catalog/default/dw82bb652e/images/large/1CC25876881.jpg?sw=1200&sh=1200&sm=fit" alt="Parlante Bluetooth">
+            <h3>Parlante Bluetooth</h3>
+            <span>$50.000</span>
+        </div>
+        <div class="product-card" data-product="pendrive">
+            <img src="https://falabella.scene7.com/is/image/Falabella/gsc_115261304_1064141_1?wid=800&hei=800&qlt=70" alt="Pendrive 32GB">
+            <h3>Pendrive 32GB</h3>
+            <span>$15.000</span>
+        </div>
+        <div class="product-card" data-product="llavero">
+            <img src="https://web.alfervigroup.com/wp-content/uploads/2019/10/llaveros-multifuncional.jpg" alt="Llavero Multifuncional">
+            <h3>Llavero Multifuncional</h3>
+            <span>$10.000</span>
+        </div>
+        <div class="product-card" data-product="puntero">
+            <img src="https://http2.mlstatic.com/D_NQ_NP_688775-MLU70869122249_082023-O.webp" alt="Puntero Láser">
+            <h3>Puntero Láser</h3>
+            <span>$20.000</span>
+        </div>
+        <div class="product-card" data-product="carcasa">
+            <img src="https://www.iluma.cl/wp-content/uploads/2021/03/Productos-12-de-marzo.jpg" alt="Carcasa de Celular">
+            <h3>Carcasa de Celular</h3>
+            <span>$12.000</span>
+        </div>
+    </div>
+
+    <div class="product-details" id="product-details">
+        <h3 id="selected-product-title"></h3>
+        <img src="" alt="Producto" id="selected-product-image">
+        <p id="selected-product-description"></p>
+        <p id="selected-product-price"></p>
+        <div class="form-group">
+            <label for="product-quantity">Cantidad:</label>
+            <input type="number" id="product-quantity" min="1" value="1">
+        </div>
+        <div class="form-group">
+            <label for="customer-name">Nombre:</label>
+            <input type="text" id="customer-name" required>
+        </div>
+        <div class="form-group">
+            <label for="customer-email">Email:</label>
+            <input type="email" id="customer-email" required>
+        </div>
+        <div class="form-group">
+            <label for="customer-address">Dirección:</label>
+            <input type="text" id="customer-address" required>
+        </div>
+        <button class="close-btn">Cerrar</button>
+        <button class="buy-btn">Comprar</button>
+    </div>
+
+    <script>
+        const productData = {
+            parlante: {
+                title: 'Parlante Bluetooth',
+                description: 'Parlante Bluetooth portátil con sonido de alta calidad y batería de larga duración.',
+                price: '$50.000',
+                image: 'https://www.abcdin.cl/dw/image/v2/BCPP_PRD/on/demandware.static/-/Sites-master-catalog/default/dw82bb652e/images/large/1CC25876881.jpg?sw=1200&sh=1200&sm=fit'
+            },
+            pendrive: {
+                title: 'Pendrive 32GB',
+                description: 'Pendrive de 32GB con alta velocidad de transferencia de datos y diseño compacto.',
+                price: '$15.000',
+                image: 'https://falabella.scene7.com/is/image/Falabella/gsc_115261304_1064141_1?wid=800&hei=800&qlt=70'
+            },
+            llavero: {
+                title: 'Llavero Multifuncional',
+                description: 'Llavero multifuncional con luz LED, abrebotellas y destornillador.',
+                price: '$10.000',
+                image: 'https://web.alfervigroup.com/wp-content/uploads/2019/10/llaveros-multifuncional.jpg'
+            },
+            puntero: {
+                title: 'Puntero Láser',
+                description: 'Puntero láser de alta precisión con diferentes modos de luz.',
+                price: '$20.000',
+                image: 'https://http2.mlstatic.com/D_NQ_NP_688775-MLU70869122249_082023-O.webp'
+            },
+            carcasa: {
+                title: 'Carcasa de Celular',
+                description: 'Carcasa de celular resistente a impactos con diseño moderno.',
+                price: '$12.000',
+                image: 'https://www.iluma.cl/wp-content/uploads/2021/03/Productos-12-de-marzo.jpg'
+            }
+        };
+
+        const products = document.querySelectorAll('.product-card');
+
+        products.forEach(product => {
+            product.addEventListener('click', () => {
+                const productId = product.getAttribute('data-product');
+                const selectedProduct = productData[productId];
+                document.getElementById('selected-product-title').textContent = selectedProduct.title;
+                document.getElementById('selected-product-description').textContent = selectedProduct.description;
+                document.getElementById('selected-product-price').textContent = selectedProduct.price;
+                document.getElementById('selected-product-image').src = selectedProduct.image;
+                document.getElementById('product-details').classList.add('show');
+
+                // Auto-fill email from localStorage
+                const registeredEmail = localStorage.getItem('registeredEmail');
+                if (registeredEmail) {
+                    document.getElementById('customer-email').value = registeredEmail;
+                }
+            });
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            document.getElementById('product-details').classList.remove('show');
+        });
+
+        document.querySelector('.buy-btn').addEventListener('click', () => {
+            const quantity = document.getElementById('product-quantity').value;
+            const name = document.getElementById('customer-name').value;
+            const email = document.getElementById('customer-email').value;
+            const address = document.getElementById('customer-address').value;
+
+            if (name && email && address && quantity > 0) {
+                alert(`Compra realizada:\nProducto: ${document.getElementById('selected-product-title').textContent}\nCantidad: ${quantity}\nNombre: ${name}\nEmail: ${email}\nDirección: ${address}`);
+                document.getElementById('product-details').classList.remove('show');
+            } else {
+                alert('Por favor, complete todos los campos.');
+            }
+        });
+    </script>
+</body>
+</html>
