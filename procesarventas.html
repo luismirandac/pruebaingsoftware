@@ -50,7 +50,7 @@
             color: #333;
         }
 
-        .product-card p {
+        .product-card span {
             color: #555;
         }
 
@@ -154,6 +154,26 @@
             <label for="customer-address">Dirección:</label>
             <input type="text" id="customer-address" required>
         </div>
+        <div class="form-group">
+            <label for="payment-method">Método de Pago:</label>
+            <select id="payment-method" required>
+                <option value="">Seleccionar</option>
+                <option value="debit">Tarjeta de Débito</option>
+                <option value="credit">Tarjeta de Crédito</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="card-number">Número de Tarjeta:</label>
+            <input type="text" id="card-number" maxlength="16" required>
+        </div>
+        <div class="form-group">
+            <label for="card-expiry">Fecha de Expiración (MM/AA):</label>
+            <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
+        </div>
+        <div class="form-group">
+            <label for="card-cvc">CVC:</label>
+            <input type="text" id="card-cvc" maxlength="3" required>
+        </div>
         <button class="close-btn">Cerrar</button>
         <button class="buy-btn">Comprar</button>
     </div>
@@ -221,9 +241,13 @@
             const name = document.getElementById('customer-name').value;
             const email = document.getElementById('customer-email').value;
             const address = document.getElementById('customer-address').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const cardExpiry = document.getElementById('card-expiry').value;
+            const cardCvc = document.getElementById('card-cvc').value;
 
-            if (name && email && address && quantity > 0) {
-                alert(`Compra realizada:\nProducto: ${document.getElementById('selected-product-title').textContent}\nCantidad: ${quantity}\nNombre: ${name}\nEmail: ${email}\nDirección: ${address}`);
+            if (name && email && address && quantity > 0 && paymentMethod && cardNumber && cardExpiry && cardCvc) {
+                alert(`Compra realizada:\nProducto: ${document.getElementById('selected-product-title').textContent}\nCantidad: ${quantity}\nNombre: ${name}\nEmail: ${email}\nDirección: ${address}\nMétodo de Pago: ${paymentMethod === 'debit' ? 'Tarjeta de Débito' : 'Tarjeta de Crédito'}\nNúmero de Tarjeta: ${cardNumber}`);
                 document.getElementById('product-details').classList.remove('show');
             } else {
                 alert('Por favor, complete todos los campos.');
@@ -232,3 +256,4 @@
     </script>
 </body>
 </html>
+
